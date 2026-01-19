@@ -1,0 +1,848 @@
+:root {
+    /* Цвета сфер */
+    --finance: #10b981;
+    --health: #f59e0b;
+    --study: #3b82f6;
+    --career: #ef4444;
+    --relationships: #ec4899;
+    --creativity: #8b5cf6;
+    --travel: #06b6d4;
+    --rest: #0ea5e9;
+    
+    --finance-light: rgba(16, 185, 129, 0.1);
+    --health-light: rgba(245, 158, 11, 0.1);
+    --study-light: rgba(59, 130, 246, 0.1);
+    --career-light: rgba(239, 68, 68, 0.1);
+    --relationships-light: rgba(236, 72, 153, 0.1);
+    --creativity-light: rgba(139, 92, 246, 0.1);
+    --travel-light: rgba(6, 182, 212, 0.1);
+    --rest-light: rgba(14, 165, 233, 0.1);
+    
+    /* Основные цвета */
+    --primary: #4361ee;
+    --primary-light: #4895ef;
+    --primary-dark: #3a0ca3;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --light: #f8f9fa;
+    --dark: #1e293b;
+    --gray: #64748b;
+    --gray-light: #e2e8f0;
+    --gray-lighter: #f1f5f9;
+    
+    /* Оттенки для светлой темы */
+    --bg-color: #ffffff;
+    --card-bg: #ffffff;
+    --border-color: #e2e8f0;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --text-muted: #94a3b8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    touch-action: pan-x pan-y;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* ФИКСИРОВАННАЯ СТРУКТУРА */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* ШАПКА */
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 100;
+    position: relative;
+}
+
+.logo {
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+}
+
+.header-date {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+/* ОСНОВНОЙ КОНТЕНТ */
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 70px;
+    padding-top: 10px;
+}
+
+.main-content::-webkit-scrollbar {
+    display: none;
+}
+
+.container {
+    padding: 0 15px;
+    max-width: 100%;
+}
+
+/* СЕКЦИИ */
+.section {
+    display: none;
+    padding-bottom: 20px;
+}
+
+.section.active {
+    display: block;
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.section-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+}
+
+/* ВИДЖЕТЫ */
+.widget {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+}
+
+.widget-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.widget-title i {
+    color: var(--primary);
+}
+
+/* ЗАДАЧИ НА СЕГОДНЯ */
+#today-tasks {
+    min-height: 100px;
+}
+
+.today-task {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    cursor: pointer;
+}
+
+.today-task.completed {
+    background: var(--success-light);
+    border-color: var(--success);
+    opacity: 0.8;
+}
+
+.task-checkbox {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--success);
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.task-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.task-title {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    word-break: break-word;
+}
+
+.task-title.completed {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+
+.task-sphere {
+    font-size: 12px;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.task-sphere-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+/* КАЛЕНДАРЬ */
+.calendar-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.calendar-nav {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.calendar-btn {
+    padding: 10px 15px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    justify-content: center;
+}
+
+.calendar-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.calendar-nav-btn {
+    padding: 10px 15px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 14px;
+    cursor: pointer;
+    flex: 1;
+}
+
+.calendar-container {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    height: 500px;
+}
+
+#calendar {
+    height: 100%;
+}
+
+/* СТИЛИ ДЛЯ FULLCALENDAR */
+.fc {
+    color: var(--text-primary);
+}
+
+.fc .fc-toolbar-title {
+    font-size: 1.1em !important;
+    color: var(--text-primary) !important;
+}
+
+.fc .fc-button {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    font-size: 0.9em !important;
+    padding: 6px 10px !important;
+}
+
+.fc .fc-button:hover {
+    background: var(--gray-lighter) !important;
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active {
+    background: var(--primary) !important;
+    color: white !important;
+    border-color: var(--primary) !important;
+}
+
+.fc-theme-standard td, 
+.fc-theme-standard th {
+    border-color: var(--border-color) !important;
+}
+
+.fc-daygrid-day.fc-day-today {
+    background: rgba(67, 97, 238, 0.1) !important;
+}
+
+.fc-event {
+    cursor: pointer;
+    border-radius: 4px !important;
+    padding: 2px 4px !important;
+    font-size: 0.85em !important;
+}
+
+/* СФЕРЫ */
+.spheres-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.sphere-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    border: 2px solid transparent;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.sphere-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.sphere-icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.sphere-name {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.sphere-count {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.1);
+    color: var(--text-primary);
+    border-radius: 12px;
+    padding: 2px 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.sphere-progress {
+    margin-top: 10px;
+}
+
+.sphere-progress-text {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+}
+
+.sphere-progress-bar {
+    height: 6px;
+    background: var(--gray-light);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.sphere-progress-fill {
+    height: 100%;
+    border-radius: 3px;
+}
+
+/* Цвета сфер */
+.sphere-card.finance {
+    border-color: var(--finance);
+    background: var(--finance-light);
+}
+
+.sphere-card.health {
+    border-color: var(--health);
+    background: var(--health-light);
+}
+
+.sphere-card.study {
+    border-color: var(--study);
+    background: var(--study-light);
+}
+
+.sphere-card.career {
+    border-color: var(--career);
+    background: var(--career-light);
+}
+
+.sphere-card.relationships {
+    border-color: var(--relationships);
+    background: var(--relationships-light);
+}
+
+.sphere-card.creativity {
+    border-color: var(--creativity);
+    background: var(--creativity-light);
+}
+
+.sphere-card.travel {
+    border-color: var(--travel);
+    background: var(--travel-light);
+}
+
+.sphere-card.rest {
+    border-color: var(--rest);
+    background: var(--rest-light);
+}
+
+/* СТАТИСТИКА */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.chart-container {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    height: 300px;
+}
+
+/* НИЖНЯЯ НАВИГАЦИЯ */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    border-top: 1px solid var(--border-color);
+    height: 60px;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--text-secondary);
+    font-size: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    flex: 1;
+    min-width: 0;
+}
+
+.nav-item i {
+    font-size: 20px;
+    margin-bottom: 4px;
+}
+
+.nav-item.active {
+    color: var(--primary);
+}
+
+/* КНОПКА ДОБАВЛЕНИЯ */
+.add-button {
+    position: fixed;
+    bottom: 70px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+    z-index: 999;
+    border: none;
+    cursor: pointer;
+}
+
+/* МОДАЛЬНЫЕ ОКНА */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal.active {
+    display: flex;
+    animation: modalFadeIn 0.3s;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 25px;
+    width: 100%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    animation: modalSlideIn 0.3s;
+}
+
+@keyframes modalSlideIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-title {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--gray-light);
+    border: none;
+    cursor: pointer;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+/* ФОРМЫ */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    font-size: 16px;
+    background: white;
+    color: var(--text-primary);
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.form-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+/* КНОПКИ */
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+}
+
+/* УВЕДОМЛЕНИЯ */
+#notification-container {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 2001;
+}
+
+.notification {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: slideIn 0.3s;
+    border-left: 4px solid var(--success);
+    max-width: 300px;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.notification.error {
+    border-left-color: var(--danger);
+}
+
+.notification.warning {
+    border-left-color: var(--warning);
+}
+
+/* ПОДРАЗДЕЛ СФЕРЫ */
+#sphere-subsection {
+    padding: 20px 0;
+}
+
+.subsection-content {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.subsection-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.subsection-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.subsection-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.subsection-tab {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+.subsection-tab.active {
+    background: var(--primary);
+    color: white;
+}
+
+/* СПИСКИ ЗАПИСЕЙ */
+.record-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.record-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: var(--gray-lighter);
+    border-radius: 12px;
+    border-left: 4px solid var(--primary);
+}
+
+.record-info {
+    flex: 1;
+}
+
+.record-amount {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.record-income {
+    color: var(--success);
+}
+
+.record-expense {
+    color: var(--danger);
+}
+
+.record-description {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-top: 5px;
+}
+
+.record-date {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.record-actions {
+    display: flex;
+    gap: 5px;
+}
+
+/* АДАПТИВНОСТЬ */
+@media (max-width: 480px) {
+    .header {
+        padding: 12px 15px;
+    }
+    
+    .logo {
+        font-size: 16px;
+    }
+    
+    .section-title {
+        font-size: 20px;
+    }
+    
+    .widget {
+        padding: 15px;
+    }
+    
+    .calendar-container {
+        height: 400px;
+        padding: 10px;
+    }
+    
+    .spheres-grid {
+        gap: 10px;
+    }
+    
+    .sphere-card {
+        padding: 15px;
+    }
+    
+    .sphere-icon {
+        font-size: 28px;
+    }
+    
+    .modal-content {
+        padding: 20px;
+        margin: 10px;
+    }
+    
+    .chart-container {
+        height: 250px;
+        padding: 15px;
+    }
+}
+
+/* ЗАПРЕТ ВЫДЕЛЕНИЯ ТЕКСТА НА МОБИЛЬНЫХ */
+* {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+input, textarea {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}

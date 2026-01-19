@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Контур Жизни</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/ru.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Шапка -->
+        <div class="header">
+            <div class="logo">КОНТУР ЖИЗНИ</div>
+            <div class="header-date" id="header-date"></div>
+        </div>
+        
+        <!-- Основной контент -->
+        <div class="main-content">
+            <div class="container">
+                <!-- ЭКРАН 1: СЕГОДНЯ -->
+                <div id="today-section" class="section active">
+                    <h1 class="section-title">Сегодня</h1>
+                    
+                    <!-- Задачи на сегодня -->
+                    <div class="widget">
+                        <div class="widget-title">
+                            <i class="fas fa-tasks"></i>
+                            <span>Задачи на сегодня</span>
+                            <span style="margin-left: auto; font-size: 14px; color: var(--text-secondary);" id="today-date"></span>
+                        </div>
+                        <div id="today-tasks">
+                            <!-- Задачи будут загружены динамически -->
+                        </div>
+                    </div>
+                    
+                    <!-- Прогресс дня -->
+                    <div class="widget">
+                        <div class="widget-title">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Прогресс дня</span>
+                        </div>
+                        <div id="day-progress-details">
+                            <!-- Детали прогресса будут загружены динамически -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ЭКРАН 2: КАЛЕНДАРЬ -->
+                <div id="calendar-section" class="section">
+                    <h1 class="section-title">Календарь</h1>
+                    
+                    <div class="calendar-controls">
+                        <button class="calendar-btn active" data-view="day">
+                            <i class="fas fa-calendar-day"></i> День
+                        </button>
+                        <button class="calendar-btn" data-view="week">
+                            <i class="fas fa-calendar-week"></i> Неделя
+                        </button>
+                        <button class="calendar-btn" data-view="month">
+                            <i class="fas fa-calendar"></i> Месяц
+                        </button>
+                        <div class="calendar-nav">
+                            <button class="calendar-nav-btn" id="prev-btn">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="calendar-nav-btn" id="today-btn">
+                                Сегодня
+                            </button>
+                            <button class="calendar-nav-btn" id="next-btn">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="calendar-container">
+                        <div id="calendar"></div>
+                    </div>
+                </div>
+                
+                <!-- ЭКРАН 3: СФЕРЫ -->
+                <div id="spheres-section" class="section">
+                    <h1 class="section-title">Мои сферы</h1>
+                    
+                    <div class="spheres-grid" id="spheres-container">
+                        <!-- Сферы будут загружены динамически -->
+                    </div>
+                    
+                    <!-- Подраздел сферы -->
+                    <div id="sphere-subsection" style="display: none;">
+                        <!-- Содержимое будет заполнено динамически -->
+                    </div>
+                </div>
+                
+                <!-- ЭКРАН 4: СТАТИСТИКА -->
+                <div id="stats-section" class="section">
+                    <h1 class="section-title">Статистика</h1>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" id="total-tasks">0</div>
+                            <div class="stat-label">Всего задач</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="completed-tasks">0</div>
+                            <div class="stat-label">Выполнено</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="total-goals">0</div>
+                            <div class="stat-label">Всего целей</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="completed-goals">0</div>
+                            <div class="stat-label">Выполнено целей</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <canvas id="activity-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ФИКСИРОВАННАЯ НИЖНЯЯ НАВИГАЦИЯ -->
+        <div class="bottom-nav">
+            <button class="nav-item active" data-section="today">
+                <i class="fas fa-home"></i>
+                <span>Сегодня</span>
+            </button>
+            <button class="nav-item" data-section="calendar">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Календарь</span>
+            </button>
+            <button class="nav-item" data-section="spheres">
+                <i class="fas fa-th-large"></i>
+                <span>Сферы</span>
+            </button>
+            <button class="nav-item" data-section="stats">
+                <i class="fas fa-chart-bar"></i>
+                <span>Статы</span>
+            </button>
+        </div>
+        
+        <!-- Кнопка добавления -->
+        <button class="add-button" id="add-button">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+    
+    <!-- МОДАЛЬНЫЕ ОКНА -->
+    <!-- Модальное окно добавления задачи -->
+    <div id="task-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('task-modal')">&times;</button>
+            <h2 class="modal-title">Новая задача</h2>
+            
+            <div class="form-group">
+                <label class="form-label">Название задачи</label>
+                <input type="text" id="task-title" class="form-control" placeholder="Что нужно сделать?">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Сфера</label>
+                <select id="task-sphere" class="form-control form-select">
+                    <option value="finance">💰 Финансы</option>
+                    <option value="health">🏃 Здоровье</option>
+                    <option value="study">📚 Учеба</option>
+                    <option value="career">💼 Карьера</option>
+                    <option value="relationships">❤️ Отношения</option>
+                    <option value="creativity">🎨 Творчество</option>
+                    <option value="travel">✈️ Путешествия</option>
+                    <option value="rest">🎮 Отдых</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Дата</label>
+                <input type="date" id="task-date" class="form-control" value="">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Время</label>
+                <input type="time" id="task-time" class="form-control" value="09:00">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Длительность (часы)</label>
+                <input type="number" id="task-duration" class="form-control" value="1" min="0.5" max="24" step="0.5">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Приоритет</label>
+                <select id="task-priority" class="form-control form-select">
+                    <option value="low">Низкий</option>
+                    <option value="medium" selected>Средний</option>
+                    <option value="high">Высокий</option>
+                </select>
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn btn-primary" style="flex: 1;" onclick="saveTask()">
+                    <i class="fas fa-save"></i> Сохранить
+                </button>
+                <button class="btn" style="flex: 1; background: var(--gray-light);" onclick="closeModal('task-modal')">
+                    Отмена
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Модальное окно финансов -->
+    <div id="finance-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('finance-modal')">&times;</button>
+            <h2 class="modal-title" id="finance-modal-title">Финансы</h2>
+            <div id="finance-modal-content">
+                <!-- Содержимое будет заполнено динамически -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Модальное окно просмотра/редактирования записи -->
+    <div id="record-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('record-modal')">&times;</button>
+            <h2 class="modal-title" id="record-modal-title">Запись</h2>
+            <div id="record-modal-content">
+                <!-- Содержимое будет заполнено динамически -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Уведомления -->
+    <div id="notification-container"></div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
